@@ -7,7 +7,7 @@ const Logger = require('./node_core_logger');
 
 const NodeTransSession = require('./node_trans_session');
 const context = require('./node_core_ctx');
-const { getFFmpegVersion, getFFmpegUrl } = require('./node_core_utils');
+const { getFFmpegVersion } = require('./node_core_utils');
 const fs = require('fs');
 const _ = require('lodash');
 const mkdirp = require('mkdirp');
@@ -40,6 +40,7 @@ class NodeTransServer {
       apps += this.config.trans.tasks[i].app;
       apps += ' ';
     }
+    let version = await getFFmpegVersion(this.config.trans.ffmpeg);
     context.nodeEvent.on('postPublish', this.onPostPublish.bind(this));
     context.nodeEvent.on('donePublish', this.onDonePublish.bind(this));
     Logger.log(`Node Media Trans Server started for apps: [ ${apps}] , MediaRoot: ${this.config.http.mediaroot}, ffmpeg version: ${version}`);
